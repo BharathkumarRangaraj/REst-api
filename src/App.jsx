@@ -10,7 +10,8 @@ import { updateUserplaces } from './http.js';
 function App() {
   const selectedPlace = useRef();
 
-  const [userPlaces, setUserPlaces] = useState([]);
+  const [userPlaces, setUserPlaces] = useState([]); 
+  const[errorupdate,seterrorupdate]=useState();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -37,7 +38,10 @@ function App() {
 
       await updateUserplaces([selectedPlace,...userPlaces])
     }catch(error){
-      //
+      setUserPlaces(userPlaces);
+      seterrorupdate({
+        message:error.message || 'failed to update places'
+      })
     }
     
   }
@@ -52,6 +56,9 @@ function App() {
 
   return (
     <>
+    <Modal open={errorupdate}>
+      <Error title='an error occured' message={errorupdate.message}></Error>
+    </Modal>
       <Modal open={modalIsOpen} onClose={handleStopRemovePlace}>
         <DeleteConfirmation
           onCancel={handleStopRemovePlace}
