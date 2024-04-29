@@ -46,9 +46,16 @@ function App() {
     setUserPlaces((prevPickedPlaces) =>
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current.id)
     );
+    try{
+      await updateUserplaces(userPlaces.filter((places)=>places.id !== selectedPlace.current.id))
+
+    }catch(error){
+      setUserPlaces(userPlaces);
+      
+    }
 
     setModalIsOpen(false);
-  }, []);
+  }, [userPlaces]);
 
   return (
     <>
