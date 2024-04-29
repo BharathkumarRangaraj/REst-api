@@ -1,6 +1,7 @@
 import Places from './Places.jsx';
 import { useState,useEffect } from 'react';
 import Error from '../../Error.jsx';
+import {fetchAvailablePlaces} from '../http.js'
 
 export default function AvailablePlaces({ onSelectPlace }) {
   const[places,setplaces]=useState([]);
@@ -11,12 +12,8 @@ export default function AvailablePlaces({ onSelectPlace }) {
     
       async function getApi(){
         try{
-        const data=await fetch('http://localhost:3000/placesf');
-        const json=await data.json();
-        if(!data.ok){
-          throw new Error('failed to fetch places')
-        }
-        setplaces(json.places);
+        const data=await fetchAvailablePlaces();
+        setplaces(data);
     
     
       
